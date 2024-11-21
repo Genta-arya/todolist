@@ -92,7 +92,7 @@ const App = () => {
           todo.id === id ? { ...todo, status: response.data.status } : todo
         )
       );
-      toast.success("Status updated successfully");
+      message.success("Status updated successfully");
       fetchData();
     } catch (error) {
       message.info(error.response.data.message);
@@ -106,6 +106,7 @@ const App = () => {
     try {
       await deleteData(id);
       setTodos(todos.filter((todo) => todo.id !== id));
+      message.success("Todo deleted successfully");
       fetchData();
     } catch (error) {
       message.info(error.response.data.message);
@@ -118,7 +119,7 @@ const App = () => {
 
   return (
     <div className="bg-gray-100 min-h-screen flex flex-col items-center p-6">
-      <div className="w-full  md:max-w-[90%] lg:max-w-[90%] bg-white rounded-lg shadow-md p-4 mb-6">
+      <div className="w-full  md:max-w-[100%] lg:max-w-[90%] bg-white rounded-lg shadow-md p-4 mb-6">
         <h2 className="text-xl font-semibold text-gray-700 mb-4">New Todo</h2>
         <input
           type="text"
@@ -148,7 +149,7 @@ const App = () => {
         </button>
       </div>
 
-      <div className="w-full md:max-w-[90%] lg:max-w-[90%] bg-white rounded-lg shadow-md p-4">
+      <div className="w-full md:max-w-[100%] lg:max-w-[90%] bg-white rounded-lg shadow-md p-4">
         <div className="flex lg:flex-row md:flex-row flex-col mb-4 md:mb-4 lg:mb-4 justify-between items-center">
           <h2 className="text-xl font-semibold text-gray-700 mb-4 lg:mb-0 md:mb-0 ">
             My Todo
