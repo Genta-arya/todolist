@@ -6,26 +6,26 @@ import {
   deleteData,
 } from "./API/service/Todolist_Service";
 import ModalLoading from "./components/Loading";
-import { FaPlus, FaTrash } from "react-icons/fa";
+import { FaCheck, FaClock, FaPlus, FaTrash } from "react-icons/fa";
 import { toast, Toaster } from "sonner";
+import { message } from "antd";
 
 const App = () => {
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [newTodo, setNewTodo] = useState({ title: "", description: "" });
-  const [searchTerm, setSearchTerm] = useState(""); 
+  const [searchTerm, setSearchTerm] = useState("");
   const [filteredTodos, setFilteredTodos] = useState([]);
-  const [statusFilter, setStatusFilter] = useState("all"); 
+  const [statusFilter, setStatusFilter] = useState("all");
 
   const fetchData = async () => {
     try {
       const response = await getData();
       setTodos(response.data);
       setFilteredTodos(response.data);
-    } catch (err) {
-      setError("Failed to fetch data");
-      setLoading(false);
+    } catch (error) {
+      message.info(error.response.data.message);
     } finally {
       setLoading(false);
     }
@@ -35,19 +35,16 @@ const App = () => {
     fetchData();
   }, []);
 
- 
   const handleSearch = (event) => {
     const term = event.target.value.toLowerCase();
     setSearchTerm(term);
     filterTodos(term, statusFilter);
   };
 
- 
   const handleStatusFilter = (status) => {
     setStatusFilter(status);
     filterTodos(searchTerm, status);
   };
-
 
   const filterTodos = (searchTerm, status) => {
     const filtered = todos.filter((todo) => {
@@ -65,15 +62,22 @@ const App = () => {
   const handleCreate = async () => {
     if (!newTodo.title || !newTodo.description)
       return toast.info("Title and description are required");
+
+    if (newTodo.title.length < 3)
+      return toast.info("Title must be at least 3 characters long");
+
+    if (newTodo.description.length < 5)
+      return toast.info("Description must be at least 5 characters long");
+
     setLoading(true);
     try {
       const response = await createData(newTodo);
       setTodos([...todos, response.data]);
       setNewTodo({ title: "", description: "" });
-      toast.success("Todo created successfully");
+      message.success("Todo created successfully");
       fetchData();
     } catch (error) {
-      toast.error(error.response.data.message);
+      message.info(error.response.data.message);
     } finally {
       setLoading(false);
     }
@@ -91,7 +95,7 @@ const App = () => {
       toast.success("Status updated successfully");
       fetchData();
     } catch (error) {
-      toast.error(error.response.data.message);
+      message.info(error.response.data.message);
     } finally {
       setLoading(false);
     }
@@ -104,7 +108,7 @@ const App = () => {
       setTodos(todos.filter((todo) => todo.id !== id));
       fetchData();
     } catch (error) {
-      toast.error(error.response.data.message);
+      message.info(error.response.data.message);
     } finally {
       setLoading(false);
     }
@@ -114,10 +118,8 @@ const App = () => {
 
   return (
     <div className="bg-gray-100 min-h-screen flex flex-col items-center p-6">
-      <div className="w-full max-w-md bg-white rounded-lg shadow-md p-4 mb-6">
-        <h2 className="text-xl font-semibold text-gray-700 mb-4">
-          Add New Todo
-        </h2>
+      <div className="w-full  md:max-w-[90%] lg:max-w-[90%] bg-white rounded-lg shadow-md p-4 mb-6">
+        <h2 className="text-xl font-semibold text-gray-700 mb-4">New Todo</h2>
         <input
           type="text"
           placeholder="Title"
@@ -146,24 +148,29 @@ const App = () => {
         </button>
       </div>
 
-      <div className="w-full max-w-md bg-white rounded-lg shadow-md p-4">
-        <div className="flex lg:flex-row md:flex-row flex-col mb-4 md:mb-0 lg:mb-0 justify-between items-center">
-          <h2 className="text-xl font-semibold text-gray-700 mb-4">My Todo</h2>
+      <div className="w-full md:max-w-[90%] lg:max-w-[90%] bg-white rounded-lg shadow-md p-4">
+        <div className="flex lg:flex-row md:flex-row flex-col mb-4 md:mb-4 lg:mb-4 justify-between items-center">
+          <h2 className="text-xl font-semibold text-gray-700 mb-4 lg:mb-0 md:mb-0 ">
+            My Todo
+          </h2>
 
-          
           <div className="flex space-x-4">
             <button
               onClick={() => handleStatusFilter("all")}
               className={`${
-                statusFilter === "all" ? "bg-green-300" : "bg-gray-200"
-              } px-3 py-1 rounded-lg`}
+                statusFilter === "all"
+                  ? "bg-green-300 text-white font-bold"
+                  : "bg-gray-200"
+              } px-3 py-1 rounded-lg `}
             >
               All
             </button>
             <button
               onClick={() => handleStatusFilter("completed")}
               className={`${
-                statusFilter === "completed" ? "bg-green-300" : "bg-gray-200"
+                statusFilter === "completed"
+                  ? "bg-green-300 text-white font-bold"
+                  : "bg-gray-200"
               } px-3 py-1 rounded-lg`}
             >
               Completed
@@ -171,7 +178,9 @@ const App = () => {
             <button
               onClick={() => handleStatusFilter("pending")}
               className={`${
-                statusFilter === "pending" ? "bg-red-300" : "bg-gray-200"
+                statusFilter === "pending"
+                  ? "bg-red-300 text-white font-bold"
+                  : "bg-gray-200"
               } px-3 py-1 rounded-lg`}
             >
               Pending
@@ -182,18 +191,18 @@ const App = () => {
         <div className="flex items-center bg-gray-100 p-2 rounded-lg mb-4">
           <input
             type="text"
-            placeholder="Search"
+            placeholder="Search..."
             value={searchTerm}
-            onChange={handleSearch} 
-            className="w-full p-2 border border-gray-300 rounded-lg"
+            onChange={handleSearch}
+            className="w-full p-2 border outline-none border-gray-300 rounded-lg"
           />
         </div>
 
         {filteredTodos?.length === 0 ? (
-          <p className="text-gray-600 text-center">No todos found</p>
+          <p className="text-gray-600 text-center">Todos not found</p>
         ) : (
           <ul
-            className={`space-y-4 border p-2 rounded-md border-black ${
+            className={`space-y-4 border p-2 rounded-md border-gray-200 ${
               filteredTodos.length > 3 ? "max-h-[300px] overflow-y-auto" : ""
             }`}
           >
@@ -207,16 +216,30 @@ const App = () => {
                 }`}
               >
                 <div>
-                  <h2 className="text-xl font-semibold">
+                  <h2 className="text-base font-semibold">
                     {index + 1}. {todo?.title}
                   </h2>
-                  <p className="text-gray-600">{todo?.description}</p>
+                  <p className="text-gray-600 text-sm">{todo?.description}</p>
                   <div
                     className={`text-sm font-medium mt-2  ${
                       todo?.status ? "text-green-500" : "text-red-500"
                     }`}
                   >
-                    {todo?.status ? "Completed" : "Pending"}
+                    {todo?.status ? (
+                      <>
+                        <div className="flex items-center space-x-2">
+                          <FaCheck />
+                          <p>Completed</p>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="flex items-center space-x-2">
+                          <FaClock />
+                          <p>Pending</p>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
                 <div className="flex space-x-2 items-center">
@@ -241,6 +264,12 @@ const App = () => {
               </li>
             ))}
           </ul>
+        )}
+        {filteredTodos.length > 0 && (
+          <div className="flex justify-center mt-4 font-bold text-sm">
+            Completed ( {todos.filter((todo) => todo?.status).length} /{" "}
+            {todos.length} )
+          </div>
         )}
       </div>
 
