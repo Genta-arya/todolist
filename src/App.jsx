@@ -24,6 +24,7 @@ const App = () => {
       const response = await getData();
       setTodos(response.data);
       setFilteredTodos(response.data);
+      setStatusFilter("all");
     } catch (error) {
       message.info(error.response.data.message);
     } finally {
