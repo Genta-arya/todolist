@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 const FormTodo = ({ newTodo, setNewTodo, handleCreate }) => {
   const titleVariants = {
-    hidden: { opacity: 0, x: -200 },
+    hidden: { opacity: 0, x: -150 },
     visible: {
       opacity: 1,
       x: 0,
@@ -13,7 +13,7 @@ const FormTodo = ({ newTodo, setNewTodo, handleCreate }) => {
   };
 
   const descVariants = {
-    hidden: { opacity: 0, x: 200 },
+    hidden: { opacity: 0, x: 150 },
     visible: {
       opacity: 1,
       x: 0,
