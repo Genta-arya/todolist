@@ -38,7 +38,7 @@ const ListTodo = ({
   const todoVariants = {
     hidden: { opacity: 0, y: 40 },
     visible: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: -20 },
+    exit: { opacity: 0, y: -30 },
   };
 
   return (

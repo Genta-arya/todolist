@@ -27,6 +27,7 @@ const App = () => {
       setStatusFilter("all");
     } catch (error) {
       message.info(error.response.data.message);
+      
     } finally {
       setLoading(false);
     }
@@ -79,7 +80,8 @@ const App = () => {
       fetchData();
     } catch (error) {
       message.info(error.response.data.message);
-    } finally {
+      fetchData();
+      } finally {
       setLoading(false);
     }
   };
@@ -97,6 +99,7 @@ const App = () => {
       fetchData();
     } catch (error) {
       message.info(error.response.data.message);
+      fetchData();
     } finally {
       setLoading(false);
     }
