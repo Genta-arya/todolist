@@ -6,6 +6,7 @@ import TrackStatus from "./TrackStatus";
 import Modal from "./Modal";
 import { motion, AnimatePresence } from "framer-motion";
 const ListTodo = ({
+  todos,
   filteredTodos,
   handleStatusFilter,
   statusFilter,
@@ -125,7 +126,7 @@ const ListTodo = ({
           </AnimatePresence>
         </ul>
       )}
-      {filteredTodos.length > 0 && <TrackStatus todos={filteredTodos} />}
+      {filteredTodos.length > 0 && <TrackStatus todos={todos} />}
 
       {isModalOpen && (
         <Modal
