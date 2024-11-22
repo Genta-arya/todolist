@@ -1,13 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { ClerkProvider, RedirectToSignIn, useClerk } from "@clerk/clerk-react";
+import {
+  ClerkProvider,
+  RedirectToSignIn,
+  SignUp,
+  useClerk,
+} from "@clerk/clerk-react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import "./index.css";
 import App from "./App";
 import LoginPage from "./components/AuthPage";
+import ProtectedRoute from "./components/ProtectedRoute";
 
-// Ambil publishable key dari environment
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
 if (!PUBLISHABLE_KEY) {
@@ -16,13 +21,21 @@ if (!PUBLISHABLE_KEY) {
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
+    <ClerkProvider publishableKey={PUBLISHABLE_KEY} fallbackRedirectUrl="/">
       <Router>
         <Routes>
-          {/* Halaman login */}
           <Route path="/login" element={<LoginPage />} />
-          
-          {/* Halaman utama */}
+          <Route
+            path="/signup"
+            element={
+              <>
+                <div className="flex justify-center h-screen items-center">
+                  <SignUp signInUrl="/login" />
+                </div>
+              </>
+            }
+          />
+
           <Route
             path="/"
             element={

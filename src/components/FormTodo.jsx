@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FaPlus } from "react-icons/fa";
 import { motion } from "framer-motion";
 
+
 const FormTodo = ({ newTodo, setNewTodo, handleCreate }) => {
+
+
+ 
   const titleVariants = {
     hidden: { opacity: 0, x: -150 },
     visible: {
@@ -28,7 +32,7 @@ const FormTodo = ({ newTodo, setNewTodo, handleCreate }) => {
         initial="hidden"
         animate="visible"
       >
-        New Todo
+        Create New Todo
       </motion.h2>
 
       <motion.input
@@ -58,7 +62,7 @@ const FormTodo = ({ newTodo, setNewTodo, handleCreate }) => {
 
       <button
         onClick={handleCreate}
-        className="w-full bg-[#36d7b7] text-white py-2 rounded-lg hover:bg-[#36d7b7] hover:shadow-lg"
+        className="w-full bg-[#36d7b7] hover:scale-95 transition-all ease-in duration-200 text-white py-2 rounded-lg hover:bg-[#36d7b7] hover:shadow-lg"
       >
         <div className="flex items-center justify-center">
           <FaPlus />

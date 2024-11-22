@@ -10,11 +10,18 @@ import { toast, Toaster } from "sonner";
 import { message } from "antd";
 import FormTodo from "./components/FormTodo";
 import ListTodo from "./components/ListTodo";
+import Container from "./components/Container";
+import { useUser } from "@clerk/clerk-react";
 
 const App = () => {
+  const { user } = useUser();
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [newTodo, setNewTodo] = useState({ title: "", description: "" });
+  const [newTodo, setNewTodo] = useState({
+    title: "",
+    description: "",
+    author: user.fullName,
+  });
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredTodos, setFilteredTodos] = useState([]);
   const [statusFilter, setStatusFilter] = useState("all");
@@ -27,7 +34,6 @@ const App = () => {
       setStatusFilter("all");
     } catch (error) {
       message.info(error.response.data.message);
-      
     } finally {
       setLoading(false);
     }
@@ -50,9 +56,7 @@ const App = () => {
 
   const filterTodos = (searchTerm, status) => {
     const filtered = todos.filter((todo) => {
-      const matchesSearch =
-        todo.title.toLowerCase().includes(searchTerm) ||
-        todo.description.toLowerCase().includes(searchTerm);
+      const matchesSearch = todo.title.toLowerCase().includes(searchTerm);
       const matchesStatus =
         status === "all" ||
         (status === "completed" ? todo.status : !todo.status);
@@ -75,13 +79,12 @@ const App = () => {
     try {
       const response = await createData(newTodo);
       setTodos([...todos, response.data]);
-      setNewTodo({ title: "", description: "" });
+      setNewTodo({ title: "", description: ""  , author: user.fullName});
       message.success("Todo created successfully");
       fetchData();
     } catch (error) {
       message.info(error.response.data.message);
-      fetchData();
-      } finally {
+    } finally {
       setLoading(false);
     }
   };
@@ -122,7 +125,7 @@ const App = () => {
   if (loading) return <ModalLoading />;
 
   return (
-    <div className="bg-gray-100 min-h-screen flex flex-col items-center p-6">
+    <Container>
       <FormTodo
         handleCreate={handleCreate}
         newTodo={newTodo}
@@ -140,7 +143,7 @@ const App = () => {
       />
 
       <Toaster position="bottom-right" richColors />
-    </div>
+    </Container>
   );
 };
 
