@@ -34,6 +34,22 @@ const ListTodo = ({
     handleDelete(selectedTodoId);
     closeModal();
   };
+  const modalVariants = {
+    hidden: { opacity: 0, scale: 0.9 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: { duration: 0.3 },
+    },
+  };
+
+  const backdropVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 0.5,
+      transition: { duration: 0.3 },
+    },
+  };
 
   const todoVariants = {
     hidden: { opacity: 0, y: 40 },
@@ -128,13 +144,22 @@ const ListTodo = ({
       )}
       {filteredTodos.length > 0 && <TrackStatus todos={todos} />}
 
-      {isModalOpen && (
-        <Modal
-          closeModal={closeModal}
-          confirmDelete={confirmDelete}
-          title={selectTodoTitle}
-        />
-      )}
+      <AnimatePresence>
+        <motion.div
+          variants={modalVariants}
+          initial="hidden"
+          animate="visible"
+          exit="hidden"
+        >
+          {isModalOpen && (
+            <Modal
+              closeModal={closeModal}
+              confirmDelete={confirmDelete}
+              title={selectTodoTitle}
+            />
+          )}
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 };
