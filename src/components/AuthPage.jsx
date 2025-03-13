@@ -1,6 +1,6 @@
 import React from "react";
 import { SignIn } from "@clerk/clerk-react";
-import { div } from "framer-motion/client";
+
 
 function LoginPage() {
   return (
@@ -15,6 +15,7 @@ function LoginPage() {
             formErrorText: "text-red-500 text-sm",
           },
         }}
+        
         signUpUrl="/signup"
       />
     </div>

@@ -2,9 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import {
   ClerkProvider,
-  RedirectToSignIn,
+
   SignUp,
-  useClerk,
+
 } from "@clerk/clerk-react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
@@ -12,6 +12,7 @@ import "./index.css";
 import App from "./App";
 import LoginPage from "./components/AuthPage";
 import ProtectedRoute from "./components/ProtectedRoute";
+
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
@@ -25,6 +26,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <Router>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
+      
           <Route
             path="/signup"
             element={
@@ -39,9 +41,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Route
             path="/"
             element={
-              <ProtectedRoute>
+              // <ProtectedRoute>
                 <App />
-              </ProtectedRoute>
+              // </ProtectedRoute>
             }
           />
         </Routes>

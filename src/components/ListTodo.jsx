@@ -87,7 +87,7 @@ const ListTodo = ({
               <motion.li
                 key={todo?.id}
                 className={`p-4 rounded-lg flex items-start justify-between ${
-                  todo?.status
+                  todo?.completed
                     ? "bg-green-100 border-l-4 border-green-500"
                     : "bg-red-100 border-l-4 border-red-500"
                 }`}
@@ -104,10 +104,10 @@ const ListTodo = ({
                   <p className="text-gray-600 text-sm">{todo?.description}</p>
                   <div
                     className={`text-sm font-medium mt-2  ${
-                      todo?.status ? "text-green-500" : "text-red-500"
+                      todo?.completed ? "text-green-500" : "text-red-500"
                     }`}
                   >
-                    {todo?.status ? (
+                    {todo?.completed === true ? (
                       <div className="flex items-center space-x-2">
                         <FaCheck />
                         <p>Completed</p>
@@ -121,7 +121,7 @@ const ListTodo = ({
                   </div>
                   <div className="mt-4 flex items-center gap-2 text-xs">
                     <FaUser className="text-gray-500" />
-                    <p className="text-gray-500 underline">{todo?.author}</p>
+                    <p className="text-gray-500 underline">{todo?.name}</p>
                   </div>
                 </div>
 
@@ -130,9 +130,9 @@ const ListTodo = ({
                     <label className="relative inline-flex items-center cursor-pointer">
                       <input
                         type="checkbox"
-                        checked={todo?.status}
+                        checked={todo?.completed}
                         onChange={() =>
-                          handleUpdateStatus(todo.id, todo.status)
+                          handleUpdateStatus(todo.id, todo.completed)
                         }
                         className="sr-only peer"
                       />

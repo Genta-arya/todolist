@@ -20,7 +20,8 @@ const App = () => {
   const [newTodo, setNewTodo] = useState({
     title: "",
     description: "",
-    author: user.fullName,
+    completed: false,
+    name: user?.fullName || "-",
   });
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredTodos, setFilteredTodos] = useState([]);
@@ -79,10 +80,17 @@ const App = () => {
     try {
       const response = await createData(newTodo);
       setTodos([...todos, response.data]);
-      setNewTodo({ title: "", description: ""  , author: user.fullName});
+
+      setNewTodo({
+        title: "",
+        description: "",
+        completed: false,
+        name: user?.fullName || "-",
+      });
       message.success("Todo created successfully");
       fetchData();
     } catch (error) {
+      console.log(error);
       message.info(error.response.data.message);
     } finally {
       setLoading(false);
