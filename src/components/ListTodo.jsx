@@ -104,7 +104,7 @@ const ListTodo = ({
                   <p className="text-gray-600 text-sm">{todo?.description}</p>
                   <div
                     className={`text-sm font-medium mt-2  ${
-                      todo?.completed ? "text-green-500" : "text-red-500"
+                      todo?.completed === "1" ? "text-green-500" : "text-red-500"
                     }`}
                   >
                     {todo?.completed === "1" ? (
