@@ -37,7 +37,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             element={
               <ProtectedRoute>
                 <App />
-                {" "}
+             
               </ProtectedRoute>
             }
           />

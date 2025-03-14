@@ -57,12 +57,18 @@ const App = () => {
 
   const filterTodos = (searchTerm, status) => {
     const filtered = todos.filter((todo) => {
-      const matchesSearch = todo.title.toLowerCase().includes(searchTerm);
+      const matchesSearch = todo.title
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+      const isCompleted = Boolean(Number(todo.completed)); // Ubah ke boolean
+
       const matchesStatus =
         status === "all" ||
-        (status === "completed" ? todo.status : !todo.status);
+        (status === "completed" ? isCompleted : !isCompleted);
+
       return matchesSearch && matchesStatus;
     });
+
     setFilteredTodos(filtered);
   };
 

@@ -87,7 +87,7 @@ const ListTodo = ({
               <motion.li
                 key={todo?.id}
                 className={`p-4 rounded-lg flex items-start justify-between ${
-                  todo?.completed
+                  todo?.completed === "1"
                     ? "bg-green-100 border-l-4 border-green-500"
                     : "bg-red-100 border-l-4 border-red-500"
                 }`}
@@ -107,7 +107,7 @@ const ListTodo = ({
                       todo?.completed ? "text-green-500" : "text-red-500"
                     }`}
                   >
-                    {todo?.completed === true ? (
+                    {todo?.completed === "1" ? (
                       <div className="flex items-center space-x-2">
                         <FaCheck />
                         <p>Completed</p>
@@ -130,7 +130,7 @@ const ListTodo = ({
                     <label className="relative inline-flex items-center cursor-pointer">
                       <input
                         type="checkbox"
-                        checked={todo?.completed}
+                        checked={todo?.completed === "1"}
                         onChange={() =>
                           handleUpdateStatus(todo.id, todo.completed)
                         }
